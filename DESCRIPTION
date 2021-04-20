@@ -14,7 +14,6 @@ Depends:
     tidyr,
     readr,
     magrittr,
-    purrr,
     ggplot2
 Imports:
     scales,
@@ -22,7 +21,8 @@ Imports:
     lubridate,
     devtools,
     rmarkdown,
-    knitr
+    knitr,
+    purrr
 RoxygenNote: 7.1.1
 Suggests: 
     testthat (>= 2.1.0),

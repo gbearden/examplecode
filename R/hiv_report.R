@@ -3,9 +3,11 @@
 #' `hiv_report` creates a PDF file of
 #'
 #' @param country Country for which you want to create a PDF file
-#' @export
+#'
 #' @examples
 #' hiv_report(country = 'Angola')
+#'
+#' @export
 
 hiv_report <- function(country) {
 

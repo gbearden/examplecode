@@ -2,9 +2,9 @@ Package: examplecode
 Type: Package
 Title: Example Code
 Version: 0.1.0
-Author: Graham Bearden
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: This is some example code that creates a pdf with visualizations
+Author: Graham Bearden <gbearde@gmail.com>
+Maintainer: Graham Bearden <gbearden@gmail.com>
+Description: This is some example code that creates a locally hosted html file with data visualizations
 License: 
 Encoding: UTF-8
 LazyData: true

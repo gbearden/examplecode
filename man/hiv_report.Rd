@@ -14,4 +14,5 @@ hiv_report(country)
 }
 \examples{
 hiv_report(country = 'Angola')
+
 }

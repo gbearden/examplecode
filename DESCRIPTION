@@ -11,6 +11,7 @@ LazyData: true
 Depends:
     R (>= 3.6), 
     dplyr,
+    tidyr,
     readr,
     magrittr,
     ggplot2

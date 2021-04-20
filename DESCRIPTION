@@ -10,12 +10,14 @@ Encoding: UTF-8
 LazyData: true
 Depends:
     R (>= 3.6), 
-    tidyverse
+    dplyr,
+    readr,
+    magittr,
+    ggplot
 Imports:
     scales,
     stringr,
     lubridate,
-    ggthemes,
     devtools,
     rmarkdown,
     knitr

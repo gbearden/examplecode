@@ -12,8 +12,8 @@ Depends:
     R (>= 3.6), 
     dplyr,
     readr,
-    magittr,
-    ggplot 
+    magrittr,
+    ggplot2
 Imports:
     scales,
     stringr,

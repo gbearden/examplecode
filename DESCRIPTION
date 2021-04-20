@@ -14,6 +14,7 @@ Depends:
     tidyr,
     readr,
     magrittr,
+    purrr,
     ggplot2
 Imports:
     scales,

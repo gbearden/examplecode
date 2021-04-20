@@ -1,0 +1,75 @@
+---
+title: "HIV Burden Example Output"
+output: 
+  html_document: 
+    keep_md: false
+---
+
+In this example I create an HTML file by executing an R function. The HTML file is completely customizable. This particular file contains three data visualizations of HIV burden in a given country (the function has a required argument for selecting the country for which you want to produce the plots). 
+
+This type of function-executed reporting can be useful for conducting and sharing short-order analyses as well as larger reports. I also like to use it to document and share data quality checks.
+
+The high-level steps to produce a file like this are straightforward and easily executed: (1) write the R function to create the reported content and (2) design the RMD template. The R function that creates the content also calls the RMD file that you design, drops in the created content, and builds the HTML output file.
+
+## `r paste0('HIV incidence and deaths in ', country, ' compared to the global mean for children under 5')`
+
+```{r globalmean, echo=FALSE, fig.align='center', fig.width = 8}
+read_csv(paste0(tempdir(), '/global_mean.csv'), col_types = cols()) %>% 
+  mutate(measure = factor(measure, levels = c('Incidence', 'Deaths'))) %>% 
+  ggplot(aes(x = year, y = val, color = location)) +
+  geom_line(stat = 'identity', size = 1) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    color = NULL
+    , x = 'Year'
+    , y = 'Burden'
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = 'top'
+    , panel.spacing = unit(2, "lines")
+    ) + 
+  facet_wrap(. ~ measure, ncol = 2)
+
+```
+
+## `r paste0('HIV incidence and deaths forecasts for ', country, ' with confidence intervals')`
+
+```{r ci, echo=FALSE, fig.align='center', fig.width = 8}
+read_csv(paste0(tempdir(), '/ci.csv'), col_types = cols()) %>% 
+  mutate(measure = factor(measure, levels = c('Incidence', 'Deaths'))) %>% 
+  ggplot(aes(x = year)) +
+  geom_line(stat = 'identity', size = 1, aes(y = val)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = .6) + 
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    color = NULL
+    , x = 'Year'
+    , y = 'Burden'
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = 'top'
+    , panel.spacing = unit(2, "lines")
+    ) + 
+  facet_wrap(. ~ measure, ncol = 2)
+```
+
+## `r paste0(country, ' mean annual HIV burden by age group, 1990-2018')`
+
+```{r annualmean, echo=FALSE, fig.height=3, fig.align='center'}
+read_csv(paste0(tempdir(), '/mean_burden.csv'), col_types = cols()) %>% 
+  mutate(age = factor(age, levels = c( '1 to 4', '<1 year'))) %>% 
+  group_by(measure, location, age) %>% 
+  summarise(mean = mean(val, na.rm = TRUE), .groups = 'drop') %>%
+  ggplot(aes(x = age, y = mean, fill = measure)) + 
+  geom_bar(stat = 'identity', position = position_dodge2()) +
+  scale_y_continuous(labels = scales::comma) + 
+  coord_flip() + 
+  theme_minimal() + 
+  labs(
+    x = 'Age Group'
+    , y = 'Mean Annual Burden (#)'
+    ) + 
+  theme(legend.title = element_blank())
+```

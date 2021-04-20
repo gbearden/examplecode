@@ -1,0 +1,27 @@
+Package: examplecode
+Type: Package
+Title: Example Code
+Version: 0.1.0
+Author: Graham Bearden
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: This is some example code that creates a pdf with visualizations
+License: 
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R (>= 3.6), 
+    tidyverse
+Imports:
+    scales,
+    stringr,
+    lubridate,
+    ggthemes,
+    devtools,
+    rmarkdown,
+    knitr
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat (>= 2.1.0),
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

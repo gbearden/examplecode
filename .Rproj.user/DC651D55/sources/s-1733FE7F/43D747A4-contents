@@ -1,0 +1,37 @@
+---
+title: "Example Output"
+output: 
+  html_document: 
+    keep_md: false
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+
+```
+
+In this example I create an HTML file by executing an R function. The file is completely customizable. This particular HTML file contains three data visualizations of HIV burden in a given country (the function has a required argument for selecting the country for which you want to produce the plots). 
+
+This type of function-executed reporting can be useful for conducting and sharing short-order analyses as well as larger reports. I also like to use it to document and share data quality checks.
+
+The high-level steps to produce a file like this are straightforward and easily executed: (1) write the R function to create the reported content and (2) design the RMD template. The R function that creates the content also calls the RMD file that you design, drops in the created content, and builds the HTML output file.
+
+## Foo
+
+```{r globalmean, echo=FALSE}
+read_csv(paste0(tempdir(), '/global_mean.csv'), , col_types = cols()) %>% 
+  ggplot(aes(x = year, y = val, color = location)) +
+  geom_line(stat = 'identity', size = 1) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    color = NULL
+    , x = 'Year'
+    , y = meas
+    , title = paste0(meas, ' in ', country, ' compared to the global mean')
+  ) +
+  theme_minimal() +
+  theme(legend.position = 'top')
+```

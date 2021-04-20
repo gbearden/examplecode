@@ -1,0 +1,73 @@
+---
+title: "Example Output"
+output: 
+  html_document: 
+    keep_md: false
+---
+
+In this example I create a PDF file by executing a R function that I wrote. The file is completely customizable. This particular PDF file contains three data visualizations of HIV burden in a given country (the function has a required argument for selecting the country for which you want to produce the plots). 
+
+This type of function-executed reporting can be useful for conducting and sharing short-order analyses as well as larger reports. I also like to use it to document and share data quality checks.
+
+The high-level steps to produce a file like this are straightforward and easily executed: (1) write the R function to create the reported content and (2) design the RMD template. The R function that creates the content also calls the RMD file that you design, drops in the created content, and builds the PDF output file.
+
+## Input files review
+
+These files will not be imported. Not all files are required to run the IPM Model, depending on how the model is configured in the *config* file. Before running the model, confirm that these files are not required. 
+
+The output below lists the directory in which R searched for the file. If the directory is incorrect, confirm that the config file is correct. It is possible that you need to update some of the config values.
+
+```{r missingfiles, echo=FALSE}
+read_csv(paste0(tempdir(), '/missing_files.csv'), col_types = cols()) %>%
+  knitr::kable() %>% 
+  kableExtra::kable_styling("striped") %>% 
+  kableExtra::scroll_box(width = "100%", height = "300px")
+```
+
+## Missing variables
+
+*Missing Variables* contains the variables missing from input files for each scenario. If there are any missing variables, add them before running the IPM Model.  
+
+```{r missingvars, echo=FALSE}
+read_csv(paste0(tempdir(), '/missing_vars.csv'), col_types = cols()) %>% 
+  knitr::kable() %>% 
+  kableExtra::kable_styling("striped") %>% 
+  kableExtra::scroll_box(width = "100%", height = "300px")
+```
+
+## Extra variables
+
+*Extra Variables* contains unexpected variables included in input files. If the model errors out when running  `input_prepare()`, you may need to remove the extra variables. Errors related to extra variables likely occur when running `gather()` or `spread()` inside of `input_prepare()`.
+
+```{r extravars, echo=FALSE}
+read_csv(paste0(tempdir(), '/extra.csv'), col_types = cols()) %>%
+  knitr::kable() %>% 
+  kableExtra::kable_styling("striped") %>% 
+  kableExtra::scroll_box(width = "100%", height = "300px")
+
+```
+
+## Duplicated input data
+
+These input files contain duplicated data. Remove the duplicate rows before running the model. The R code checks for duplicates across the columns required that make a row unique. Using the cases file as an example, the combination of *cntry* and *age* values make a row unique. If, for example, there are two rows for the country "AFG" and age "1", the R code will catch this and flag it as a duplicate.
+
+```{r duplicated, echo=FALSE}
+read_csv(paste0(tempdir(), '/duplicated.csv'), col_types = cols()) %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling("striped") %>%
+  kableExtra::scroll_box(width = "100%")
+```
+
+## Missing input data
+
+These input files contain missing data. This check should raise a yellow flag, not a red flag. It is okay for some input files to contain `NA` values. Confirm that these missing data are okay before running the model.
+
+```{r missingdata, echo=FALSE}
+read_csv(paste0(tempdir(), '/missing_data.csv'), col_types = cols()) %>% 
+  knitr::kable() %>%
+  kableExtra::kable_styling("striped") %>%
+  kableExtra::scroll_box(width = "100%")
+```
+
+
+

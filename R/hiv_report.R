@@ -61,7 +61,7 @@ hiv_report <- function(country) {
 
   # Remove files in temp directory
   f <- list.files(tempdir())
-  map(paste0(tempdir(), '/', f), unlink)
+  purrr::map(paste0(tempdir(), '/', f), unlink)
 
   message('You can find your HTML file here: ', paste0(getwd(), '/hiv_burden_', country, '_', stringr::str_replace_all(lubridate::today(), '-', '_'), '.html'))
 

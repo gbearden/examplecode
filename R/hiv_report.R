@@ -14,8 +14,10 @@ hiv_report <- function(country) {
   if(missing(country)) stop('Indicate a country to build the HIV report. Use countries() to see a country list.')
   if(! country %in% countries()) stop(paste0('No data exists for ', country, '.'))
 
+  # Load the RMD template from which you will create the HTML file
   template <- system.file("rmd", "template.Rmd", package = "examplecode")
 
+  # Prepare the data for the comparison to the global mean
   mean <- hiv_burden %>%
     filter(
       metric == 'Number'
@@ -34,6 +36,7 @@ hiv_report <- function(country) {
     bind_rows(mean) %>%
     write_csv(paste0(tempdir(), '/global_mean.csv'), na = '')
 
+  # Prepare the data for the confidence interval plot
   hiv_burden %>%
     filter(
       metric == 'Number'
@@ -42,6 +45,7 @@ hiv_report <- function(country) {
     ) %>%
     write_csv(paste0(tempdir(), '/ci.csv'), na = '')
 
+  # Prepare the data for the average annual burden plot
   hiv_burden %>%
     filter(
       metric == 'Number'
@@ -56,7 +60,6 @@ hiv_report <- function(country) {
     write_csv(paste0(tempdir(), '/mean_burden.csv'), na = '')
 
   # Write output
-
   rmarkdown::render(template, output_dir = getwd(), output_file = paste0('/hiv_burden_', country, '_', stringr::str_replace_all(lubridate::today(), '-', '_'), '.html'))
 
   # Remove files in temp directory
